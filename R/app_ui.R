@@ -2,17 +2,23 @@
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
-#' @import shiny
+#' @import shiny shinydashboard shinydashboardPlus leaflet dplyr leaflet.extras
 #' @noRd
 app_ui <- function(request) {
+  header <- dashboardHeader(tags$li(class = "dropdown",
+                                    tags$style(".main-header {max-height: 60px}"),
+                                    tags$style(".main-header .logo {height: 60px}"),
+                                    tags$style(".sidebar-toggle {height: 60px; padding-top: 1px !important;}"),
+                                    tags$style(".navbar {min-height:60px !important}")
+  ))
+  sidebar <- dashboardSidebar(data_layers_ui("inputs_1"))
+  body <- dashboardBody(basemap_ui("map_main"))
+
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    # Your application UI logic
-    fluidPage(
-      h1("TownBarriers")
+    dashboardPage(header, sidebar, body, skin = "black")
     )
-  )
 }
 
 #' Add external Resources to the Application
